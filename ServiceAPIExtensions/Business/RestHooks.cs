@@ -1,4 +1,6 @@
-﻿using EPiServer.Data.Dynamic;
+﻿using EPiServer;
+using EPiServer.Data.Dynamic;
+using ServiceAPIExtensions.Controllers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,6 +37,24 @@ namespace ServiceAPIExtensions.Business
                 //Post async json encoded object.
                 var data=Newtonsoft.Json.JsonConvert.SerializeObject(Data);
                 cli.PostAsJsonAsync(r.Url, Data);
+            }
+        }
+
+        public static void InvokeRestHooks(string EventName, ContentEventArgs e)
+        {
+            if (e.Content != null)
+            {
+                object Data = ContentAPiController.ConstructExpandoObject(e.Content);
+                InvokeRestHooks(EventName, Data);
+            }
+        }
+
+        public static void InvokeRestHooks(string EventName, DeleteContentEventArgs e)
+        {
+            if (e.Content != null)
+            {
+                object Data = ContentAPiController.ConstructExpandoObject(e.Content);
+                InvokeRestHooks(EventName, Data);
             }
         }
 
