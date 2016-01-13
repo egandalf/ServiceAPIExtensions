@@ -9,11 +9,18 @@ namespace ServiceAPIExtensions.Business.Configuration
 {
     public class ZapierConfiguration : ConfigurationSection
     {
-        public ZapierConfiguration Configuration { get; private set; }
+        private ZapierConfiguration _config;
+        public ZapierConfiguration Configuration
+        {
+            get
+            {
+                return _config ?? (_config = (ZapierConfiguration)ConfigurationManager.GetSection("Zapier"));
+            }
+        }
 
         public ZapierConfiguration()
         {
-            this.Configuration = (ZapierConfiguration)ConfigurationManager.GetSection("Zapier");
+            
         }
 
         [ConfigurationProperty("OnPublishedContent", DefaultValue = "false", IsRequired = false)]
