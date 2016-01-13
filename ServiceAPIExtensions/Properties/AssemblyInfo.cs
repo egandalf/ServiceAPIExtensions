@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("EPiServer ServiceAPIExtensions")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Adds Content, User, and Zapier REST endpoints for the Episerver ServiceAPI.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("EPiServer AB")]
 [assembly: AssemblyProduct("EPiServer ServiceAPIExtensions")]
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.10.0.0")]
-[assembly: AssemblyFileVersion("0.10.0.0")]
+[assembly: AssemblyVersion("0.10.1.0")]
+[assembly: AssemblyFileVersion("0.10.1.0")]
