@@ -266,7 +266,7 @@ namespace ServiceAPIExtensions.Controllers
 
             if (properties.ContainsKey("Name")) con.Name = properties["Name"].ToString();
             EPiServer.DataAccess.SaveAction saveaction = action;
-            if (properties.ContainsKey("SaveAction") && properties["SaveAction"]=="Publish")
+            if (properties.ContainsKey("SaveAction") && (string)properties["SaveAction"]=="Publish")
             {
                 saveaction = EPiServer.DataAccess.SaveAction.Publish;
             }
