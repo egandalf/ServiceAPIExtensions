@@ -11,7 +11,6 @@ using ServiceAPIExtensions.Business.Configuration;
 
 namespace ContentAPI.Zapier
 {
-    [InitializableModule]
     [ModuleDependency(typeof(EPiServer.Web.InitializationModule))]
     public class ZapierInit : IInitializableModule
     {
