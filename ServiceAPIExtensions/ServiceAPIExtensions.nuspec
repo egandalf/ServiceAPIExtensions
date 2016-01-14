@@ -1,19 +1,18 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0"?>
 <package >
   <metadata>
     <id>$id$</id>
     <version>$version$</version>
     <title>$title$</title>
-    <authors>EPiServer AB</authors>
-    <owners>EPiServer AB</owners>
+    <authors>Episerver</authors>
+    <owners>Episerver</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Extends the ServiceAPI with multiple additional APIs</description>
-    <copyright>Copyright 2015</copyright>
+    <description>$description$</description>
+    <releaseNotes>Updates and fixes involving ContentAPIController and Zapier support.</releaseNotes>
+    <copyright>Copyright 2016</copyright>
     <dependencies>
       <dependency id="EPiServer.ServiceApi" version="[1.6.0,]" />
     </dependencies>
+    <tags>Episerver ServiceAPI</tags>
   </metadata>
-  <files>
-    <!--<file src="..\assets\readme.txt" target="" />-->
-  </files>
 </package>
