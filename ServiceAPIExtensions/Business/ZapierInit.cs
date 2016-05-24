@@ -50,6 +50,10 @@ namespace ContentAPI.Zapier
 
         void events_PublishedContent(object sender, EPiServer.ContentEventArgs e)
         {
+            var rh = new RestHook();
+            rh.Url = "https://zapier.com/hooks/catch/2ldlo3/";
+            rh.EventName = "content_published";
+            rh.SaveRestHook();
             RestHook.InvokeRestHooks("content_published", e);
         }
 

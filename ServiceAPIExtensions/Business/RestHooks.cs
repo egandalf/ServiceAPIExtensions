@@ -32,11 +32,12 @@ namespace ServiceAPIExtensions.Business
         public static void InvokeRestHooks(string EventName, object Data)
         {
             HttpClient cli = new HttpClient();
-            foreach (var r in GetStore().Items<RestHook>().Where(rh => rh.EventName == EventName))
+            foreach (RestHook r in GetStore().Items<RestHook>().Where(rh => rh.EventName == EventName))
             {
                 //Post async json encoded object.
                 var data=Newtonsoft.Json.JsonConvert.SerializeObject(Data);
                 cli.PostAsJsonAsync(r.Url, Data);
+                DeleteRestHook(r.Id.ExternalId.ToString());
             }
         }
 

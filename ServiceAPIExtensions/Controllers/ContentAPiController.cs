@@ -20,6 +20,8 @@ using EPiServer.Framework.Blobs;
 using System.IO;
 using EPiServer.Web.Routing;
 using EPiServer.Data.Entity;
+using EPiServer.Globalization;
+using System.Collections;
 
 namespace ServiceAPIExtensions.Controllers
 {
@@ -202,6 +204,40 @@ namespace ServiceAPIExtensions.Controllers
             return Ok(ToReturn.Select(c =>ConstructExpandoObject(c, Select)).ToArray());
         }
 
+        [AuthorizePermission("EPiServerServiceApi", "ReadAccess"), HttpGet, HttpPost, Route("{reference}/lookup/{property}/{value}")]
+        public virtual IHttpActionResult LookupContentByProperty(string reference, string property, string value)
+        {
+            var r = LookupRef(reference);
+
+            var children = _repo.GetChildren<IContent>(r);
+            if (children.Any())
+            {
+                dynamic e = new ExpandoObject();
+                e.Children = children.Where(x => x.Property[property] != null && x.Property[property].Value.ToString() == value).Select(c => ConstructExpandoObject(c, false)).ToArray();
+                return Ok((ExpandoObject)e);
+            }
+
+            return Ok();
+        }
+
+        [/*AuthorizePermission("EPiServerServiceApi", "ReadAccess"),*/ HttpGet, HttpPost, Route("{reference}/childfolder/{name}")]
+        public virtual IHttpActionResult LookupFolderByName(string reference, string name)
+        {
+            var r = LookupRef(reference);
+
+            var children = _repo.GetChildren<IContent>(r);
+            if (children.Any())
+            {
+                dynamic e = new ExpandoObject();
+                var results = children.Where(x => x.Name.ToLower() == name.ToLower()).Select(c => ConstructExpandoObject(c, false));
+                if (results.Any())
+                {
+                    return Ok(results.First());
+                }
+            }
+            return Ok();
+        }
+
         [AuthorizePermission("EPiServerServiceApi", "WriteAccess"), HttpPut, Route("{Reference}")]
         public virtual IHttpActionResult PutContent(string Reference, [FromBody] ExpandoObject Updated, EPiServer.DataAccess.SaveAction action = EPiServer.DataAccess.SaveAction.Save)
         {
@@ -306,6 +342,11 @@ namespace ServiceAPIExtensions.Controllers
                 else if (properties[k] is string[])
                 {
                     con.Property[k].Value = properties[k] as string[];
+                }
+                // following condition created in order to support List<string> types.
+                else if (properties[k] != null && typeof(IList<object>).IsAssignableFrom(properties[k].GetType()))
+                {
+                    con.Property[k].Value = (properties[k] as List<object>).Select(c => c.ToString()).ToArray<string>();
                 }
                 else
                 {
